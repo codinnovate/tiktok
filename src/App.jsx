@@ -1,20 +1,52 @@
 
-import './App.css'
-import Video from './components/Video'
+// import './App.css'
+// import Video from './components/Video'
+
+import { useState } from "react";
+import Header from "./components/Header";
+import SideBar from "./components/SideBar";
+import { Route, Routes } from 'react-router-dom';
+import { Explore }  from "./components/pages/Explore";
+import Foryou from "./components/pages/forYou";
+import Following from "./components/pages/Following";
+
+
+
 
 function App() {
+  const [theme, setTheme] = useState('')
+
+  const toggleMode = () =>{
+    if(theme == 'bg-[#ffffff]'){
+      setTheme('bg-[#121212]')
+      localStorage.setItem("Mode")
+    }
+    else if (theme == 'bg-[#121212]') {
+      setTheme('bg-[#ffffff]')
+      localStorage.setItem('Mode')
+    }
+
+  }
+
+  const whatMode = localStorage.getItem("Mode")
+  console.log(whatMode)
+
   return (
-    <div className='app'>
-      <div className='app__videos'>
-        <Video
-          url="https://www.tiktok.com/@mumupolicecomedy0/video/7257490053398629637?is_from_webapp=1&sender_device=pc" channel="nabendu82"
-          description="Macbook Air to new Windows editing beast"
-          song="I am a Windows PC"
-          likes={345}
-          shares={200}
-          messages={90}
-        />
-     
+    <div className='flex flex-col bg-[#121212] dark:bg-[#ffffff] overflow-hidden h-screen'>
+      <Header />
+      <div className="grid grid-cols-5">
+        <div className="col-span-1">
+      <SideBar />    
+        </div>
+        <div className="col-span-5">
+      <Routes>
+        <Route path='explore' element={<Explore /> }  />
+        <Route path="foryou" element={<Foryou />} />
+        <Route path="following" element={<Following />}  />
+        <Route />
+        <Route />
+      </Routes>
+        </div>
       </div>
     </div>
   );
